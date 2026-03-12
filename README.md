@@ -9,6 +9,7 @@ AssetFlow is an on-premise IT asset management system built on Laravel 11 and Fi
 - `docs/OPERATIONS.md` - Deployment, queue/scheduler, backups, and updates.
 - `docs/ARCHITECTURE.md` - Domain structure, data model, and internals.
 - `docs/INSTANCE_DEPLOYMENT.md` - Step-by-step guide for provisioning separate company instances.
+- `docs/QUICK_DEPLOY.md` - Fast clone-to-deploy workflow using one command.
 - `docs/REQUIREMENTS.md` - Infrastructure, runtime, and environment prerequisites.
 - `docs/GITHUB_SETUP.md` - Safe GitHub publishing and repository hardening checklist.
 - `SECURITY.md` - Security policy and hardening checklist.
@@ -60,6 +61,21 @@ php artisan assetflow:seed-demo
 ```bash
 php artisan serve
 ```
+
+## Quick Deploy (Clone -> Ready)
+For fastest deployment on a new server:
+```bash
+git clone https://github.com/ahmedanas37/assetflow.git
+cd assetflow
+scripts/deploy-instance.sh \
+  --company "Acme Corp" \
+  --app-url "https://assetflow.acme.local" \
+  --db-database "assetflow_acme" \
+  --db-username "assetflow_user" \
+  --prompt-db-password
+```
+
+Then open `https://assetflow.acme.local/setup` and create the first admin account.
 
 ## Admin Recovery
 If login fails or you need to reset admin credentials:
@@ -184,16 +200,12 @@ Recommended rollout flow for each new company:
 ```bash
 cp -R /opt/assetflow-template /var/www/assetflow-acme
 cd /var/www/assetflow-acme
-cp .env.example .env
-scripts/configure-instance.sh \
+scripts/deploy-instance.sh \
   --company "Acme Corp" \
   --app-url "https://assetflow.acme.local" \
-  --db-database "assetflow_acme"
-# If needed, further edit .env for DB credentials and mail settings.
-composer install --no-dev --optimize-autoloader
-php artisan key:generate
-php artisan config:cache
-php artisan route:cache
+  --db-database "assetflow_acme" \
+  --db-username "assetflow_user" \
+  --prompt-db-password
 ```
 
 Then open `https://assetflow.acme.local/setup` and complete first-run setup from the browser.

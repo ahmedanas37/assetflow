@@ -9,6 +9,17 @@ This guide is for system administrators responsible for deployment and maintenan
 - PHP extensions: ctype, fileinfo, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
 
 ## Install
+Fast path (recommended for new servers):
+```
+scripts/deploy-instance.sh \
+  --company "Acme Corp" \
+  --app-url "https://assetflow.acme.local" \
+  --db-database "assetflow_acme" \
+  --db-username "assetflow_user" \
+  --prompt-db-password
+```
+
+Manual path:
 ```
 composer install --no-dev --optimize-autoloader
 php artisan key:generate
