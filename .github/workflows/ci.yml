@@ -23,7 +23,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
-          extensions: ctype, fileinfo, json, mbstring, openssl, pdo_sqlite, sqlite3, tokenizer, xml, zip, gd
+          extensions: ctype, fileinfo, intl, json, mbstring, openssl, pdo_sqlite, sqlite3, tokenizer, xml, zip, gd
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4

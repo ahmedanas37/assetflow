@@ -15,19 +15,19 @@ AssetFlow is an on-premise IT asset management system built on Laravel 11 and Fi
 - `SECURITY.md` - Security policy and hardening checklist.
 
 ## Key Features
-- Asset lifecycle management with assignments, maintenance, and attachments
+- Asset lifecycle management with check-out, transfer, check-in, maintenance, and attachments
 - Quantity-based accessory inventory with check-out and check-in
 - Role-based access control via spatie/laravel-permission
 - CSV import/export with mapping and validation preview
-- QR codes and printable labels for single or bulk assets
-- Full audit trail for create/update/delete/check-in/check-out/status changes
+- QR codes, printable labels, and delivery receipts for single or bulk assets
+- Full audit trail plus downloadable audit evidence packs
 - Database-backed queues and scheduled metrics refresh
 
 ## Requirements
 - PHP 8.2 or 8.3
 - MariaDB 10.4+ (or MySQL 8+)
 - Web server: Apache or Nginx
-- PHP extensions: ctype, fileinfo, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
+- PHP extensions: ctype, fileinfo, intl, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
 
 ## Quick Start
 1) Install dependencies
@@ -38,29 +38,41 @@ composer install
 2) Configure environment
 ```bash
 cp .env.example .env
+# PowerShell: Copy-Item .env.example .env
 ```
 Update `.env` with your database credentials and base URL (`APP_URL`).
 
-3) Generate key
+3) Generate key and storage symlink
 ```bash
 php artisan key:generate
+php artisan storage:link
 ```
 
-4) Start the app and run first-time setup
+4) Initialize the database
+Use either approach:
+```bash
+php artisan migrate
+```
+or open `{APP_URL}/setup` and click `Initialize Database`.
+
+5) Start the app and run first-time setup
 Open `{APP_URL}/setup`, then:
-- (If needed) click `Initialize Database` to run migrations
 - Enter company and admin account details
 - Submit `Complete Setup`
 
-5) Optional demo data
+The bundled `.env.example` uses file-based sessions and cache so the first-run installer works before database tables exist.
+
+6) Optional demo data
 ```bash
 php artisan assetflow:seed-demo
 ```
 
-6) Run locally
+7) Run locally
 ```bash
 php artisan serve
 ```
+
+Then open `http://127.0.0.1:8000/setup` if you kept the default local `APP_URL`.
 
 ## Quick Deploy (Clone -> Ready)
 For fastest deployment on a new server:
@@ -99,7 +111,7 @@ This build is single-instance per company. On a fresh deployment:
 - Setup captures company name and accent color for that instance
 - After setup, `/setup` is locked and users sign in at `/admin`
 - Product name remains `AssetFlow` across all deployments
-- Logo, company name, color, and email footer can be changed later in `Administration > Portal Settings > Branding`
+- Logo, company name, color, and email footer can be changed later in `Administration > Portal Settings` under the `Branding` section
 
 ## Queues and Scheduler
 Queues use the database driver. Start a worker:

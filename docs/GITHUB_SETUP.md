@@ -50,7 +50,11 @@ Typical examples:
 Current `.gitignore` already excludes:
 - `.env` and production env files
 - `vendor/`, `node_modules/`
-- `storage/framework/*`, `storage/logs*`
+- `storage/framework/cache/data/*`
+- `storage/framework/sessions/*`
+- `storage/framework/testing/*`
+- `storage/framework/views/*`
+- `storage/logs/*`
 - `storage/app/private/*`
 - `storage/app/public/*` (except placeholder `.gitignore`)
 - `bootstrap/cache/*.php`

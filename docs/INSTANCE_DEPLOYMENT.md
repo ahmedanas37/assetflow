@@ -60,6 +60,7 @@ At minimum verify:
 ```bash
 composer install --no-dev --optimize-autoloader
 php artisan key:generate
+php artisan storage:link
 php artisan config:cache
 php artisan route:cache
 ```
@@ -69,7 +70,7 @@ Then open `{APP_URL}/setup` and complete first-run setup from the browser:
 - Create first admin user
 - Save company name for this instance
 
-After first login, open `Administration > Portal Settings > Branding` to upload logo and adjust branding.
+After first login, open `Administration > Portal Settings` and use the `Branding` section to upload logo and adjust branding.
 
 ## 5) Web Server
 Point virtual host/server block to the instance `public` directory:

@@ -10,6 +10,7 @@
 ## Required PHP Extensions
 - `ctype`
 - `fileinfo`
+- `intl`
 - `json`
 - `mbstring`
 - `openssl`
@@ -54,4 +55,5 @@ php artisan storage:link
 - `DB_USERNAME`
 - `DB_PASSWORD`
 - `QUEUE_CONNECTION=database`
-- `SESSION_DRIVER=database`
+- `SESSION_DRIVER=file`
+- `CACHE_STORE=file`

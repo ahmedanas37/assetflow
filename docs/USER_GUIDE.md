@@ -18,20 +18,23 @@ This guide is for IT staff, asset managers, and auditors who use the system dail
 ## Navigation by Task
 - Track and manage assets: `Assets`
 - Issue/return assets: `Assets` (Check-out/Check-in actions) or `Assignments`
+- Transfer an assigned asset: `Assets` (Transfer action on the asset)
 - Manage accessory stock: `Inventory > Accessories`
 - Review assignment history: `Assignments` or Asset detail tabs
 - Bulk import employees: `People > Employees > Import CSV` (Admin permission required)
 - Track maintenance: `Maintenance`
 - Review reports: `Reports`
-- Audit changes: `Audit`
+- Print labels or delivery receipts: `Assets`
+- Audit changes and exports: `Audit`
 
 ## Asset Lifecycle
 ### Intake (Single Asset)
 1) Go to `Assets > Create`.
-2) Select Model and Category.
-3) Choose Status Label (default is In Stock).
-4) Set Home Location.
-5) Save. The asset is now ready for assignment.
+2) Leave `Auto-generate asset tag` enabled or enter a manual tag.
+3) Select Model and Category.
+4) Choose Status Label (default is In Stock).
+5) Set Home Location.
+6) Save. The asset is now ready for assignment.
 
 ### Intake (CSV Import)
 1) Go to `Assets` and click `Import CSV`.
@@ -47,6 +50,13 @@ This guide is for IT staff, asset managers, and auditors who use the system dail
 4) Optional due date and notes.
 5) Save to complete check-out.
 
+### Transfer (Asset)
+1) Open an already assigned asset and click `Transfer`.
+2) Select the new user, employee, or location.
+3) Enter cubicle or system name for location assignments.
+4) Optional due date and notes.
+5) Save. The previous assignment is closed and a new active assignment is created.
+
 ### Check-in (Asset)
 1) Open the asset and click `Check-in`.
 2) Choose condition and optional notes.
@@ -61,6 +71,11 @@ This guide is for IT staff, asset managers, and auditors who use the system dail
 
 ### Attachments
 Upload photos, invoices, or repair documents. Files are private and require permission to download.
+
+### Labels and Delivery Receipts
+1) Open an asset and use `Print Label` to open a printable QR label.
+2) Use `Delivery Receipt` to open the printable assignment receipt for the current assignee.
+3) From the asset list, bulk actions can print labels or delivery receipts for multiple assets.
 
 ## Accessories (Quantity-based)
 Accessories are tracked by quantity instead of tags.
@@ -84,17 +99,23 @@ Accessories are tracked by quantity instead of tags.
 4) Save. Available quantity increases.
 
 ## Reports and Exports
-- Use `Reports` for warranty, in-repair, retired, and by-location views.
-- Export any list as CSV using the Export actions.
+- Built-in reports include:
+  `Warranty Expiring`, `Assets in Repair`, `Retired Assets`, `Assets by Location`,
+  `Assets by Assignee`, `Missing Serials`, `Missing Tags`, and `Duplicate Warnings`.
+- `Assets` includes `Export CSV` actions for single records, list exports, and bulk exports.
+- `Audit` includes `Export` and, when enabled, `Evidence Pack`.
+- Individual report pages include `Export CSV`.
 
 ## Search and Filters
-- Global search finds asset tags, serials, models, users, and locations.
+- Global search finds asset tags, serials, models, employees, users, and locations.
 - Employees are searchable in People and assignment fields.
 - List pages include filters and a Reset filters option.
 
 ## Common Issues
 - "Not deployable": The asset status is not deployable. Change status to a deployable label.
 - "Cannot delete status label": It is used by assets. Reassign assets first.
+- Transfer action missing: Asset transfers may be disabled in `Administration > Portal Settings`.
+- Evidence Pack missing: The evidence pack feature may be disabled in `Administration > Portal Settings`.
 - Missing section: Role lacks permission.
 
 ## Best Practices
