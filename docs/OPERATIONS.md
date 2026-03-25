@@ -6,7 +6,7 @@ This guide is for system administrators responsible for deployment and maintenan
 - PHP 8.2 or 8.3
 - MariaDB 10.4+ (or MySQL 8+)
 - Apache or Nginx
-- PHP extensions: ctype, fileinfo, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
+- PHP extensions: ctype, fileinfo, intl, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
 
 ## Install
 Fast path (recommended for new servers):
@@ -21,8 +21,10 @@ scripts/deploy-instance.sh \
 
 Manual path:
 ```
+cp .env.example .env
 composer install --no-dev --optimize-autoloader
 php artisan key:generate
+php artisan storage:link
 ```
 
 After web server and `.env` are ready, open `{APP_URL}/setup`:
@@ -34,8 +36,11 @@ Key `.env` values:
 - `APP_URL` (used by QR codes and labels)
 - `DB_*` (database connection)
 - `QUEUE_CONNECTION=database`
-- `SESSION_DRIVER=database`
+- `SESSION_DRIVER=file`
+- `CACHE_STORE=file`
 - `COMPANY_NAME`
+
+The bundled `.env.example` keeps sessions and cache on disk so `/setup` works before database tables exist. Only switch those drivers after provisioning the backing store you want to use.
 
 After changing `.env`:
 ```
@@ -170,4 +175,5 @@ php artisan permission:cache-reset
 
 ### 419 CSRF or session errors
 - Ensure `APP_URL` matches the browser URL.
+- If you switched to database-backed sessions, confirm migrations have been run first.
 - Clear caches: `php artisan config:clear` and `php artisan cache:clear`.

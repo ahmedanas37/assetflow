@@ -27,7 +27,7 @@ AssetFlow is an on-premise IT asset management system built on Laravel 11 and Fi
 - PHP 8.2 or 8.3
 - MariaDB 10.4+ (or MySQL 8+)
 - Web server: Apache or Nginx
-- PHP extensions: ctype, fileinfo, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
+- PHP extensions: ctype, fileinfo, intl, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
 
 ## Quick Start
 1) Install dependencies
@@ -38,29 +38,41 @@ composer install
 2) Configure environment
 ```bash
 cp .env.example .env
+# PowerShell: Copy-Item .env.example .env
 ```
 Update `.env` with your database credentials and base URL (`APP_URL`).
 
-3) Generate key
+3) Generate key and storage symlink
 ```bash
 php artisan key:generate
+php artisan storage:link
 ```
 
-4) Start the app and run first-time setup
+4) Initialize the database
+Use either approach:
+```bash
+php artisan migrate
+```
+or open `{APP_URL}/setup` and click `Initialize Database`.
+
+5) Start the app and run first-time setup
 Open `{APP_URL}/setup`, then:
-- (If needed) click `Initialize Database` to run migrations
 - Enter company and admin account details
 - Submit `Complete Setup`
 
-5) Optional demo data
+The bundled `.env.example` uses file-based sessions and cache so the first-run installer works before database tables exist.
+
+6) Optional demo data
 ```bash
 php artisan assetflow:seed-demo
 ```
 
-6) Run locally
+7) Run locally
 ```bash
 php artisan serve
 ```
+
+Then open `http://127.0.0.1:8000/setup` if you kept the default local `APP_URL`.
 
 ## Quick Deploy (Clone -> Ready)
 For fastest deployment on a new server:

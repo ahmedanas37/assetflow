@@ -60,6 +60,7 @@ At minimum verify:
 ```bash
 composer install --no-dev --optimize-autoloader
 php artisan key:generate
+php artisan storage:link
 php artisan config:cache
 php artisan route:cache
 ```
