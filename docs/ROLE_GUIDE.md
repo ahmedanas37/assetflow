@@ -11,7 +11,8 @@ Typical flow:
 3) Create users or import employees via CSV.
 4) Assign roles and activate accounts.
 5) Import assets or add them manually.
-6) Review audit logs and reports for compliance.
+6) Review Portal Settings for branding, email behavior, and feature toggles.
+7) Review audit logs and reports for compliance.
 
 Go-to areas:
 - People (Employees, Users, Departments)
@@ -19,6 +20,7 @@ Go-to areas:
 - Locations
 - Vendors
 - Audit
+- Administration
 
 ## IT Manager (Asset Manager)
 Primary focus: daily asset operations.
@@ -26,9 +28,11 @@ Primary focus: daily asset operations.
 Typical flow:
 1) Intake assets or accessories.
 2) Check out assets to users or locations.
-3) Record cubicle/system details when assigned to a location.
-4) Track maintenance and close repair logs.
-5) Run reports and export CSVs.
+3) Transfer assigned assets when ownership changes.
+4) Record cubicle/system details when assigned to a location.
+5) Print labels or delivery receipts when needed.
+6) Track maintenance and close repair logs.
+7) Run reports and export CSVs.
 
 Go-to areas:
 - Assets
@@ -44,6 +48,7 @@ Typical flow:
 1) Search assets and assignments.
 2) Review audit logs for changes.
 3) Export reports as CSV.
+4) Download the audit evidence pack when the feature is enabled.
 
 Go-to areas:
 - Assets (view only)
@@ -57,6 +62,11 @@ Go-to areas:
 2) Confirm status is deployable.
 3) Check out to a user or location.
 4) Track assignment history and due dates.
+
+### Asset Transfer
+1) Open the currently assigned asset.
+2) Use `Transfer` to move it to a new user, employee, or location.
+3) Keep due date and notes current during the handoff.
 
 ### Asset Return
 1) Check in from asset detail.

@@ -15,12 +15,12 @@ AssetFlow is an on-premise IT asset management system built on Laravel 11 and Fi
 - `SECURITY.md` - Security policy and hardening checklist.
 
 ## Key Features
-- Asset lifecycle management with assignments, maintenance, and attachments
+- Asset lifecycle management with check-out, transfer, check-in, maintenance, and attachments
 - Quantity-based accessory inventory with check-out and check-in
 - Role-based access control via spatie/laravel-permission
 - CSV import/export with mapping and validation preview
-- QR codes and printable labels for single or bulk assets
-- Full audit trail for create/update/delete/check-in/check-out/status changes
+- QR codes, printable labels, and delivery receipts for single or bulk assets
+- Full audit trail plus downloadable audit evidence packs
 - Database-backed queues and scheduled metrics refresh
 
 ## Requirements
@@ -111,7 +111,7 @@ This build is single-instance per company. On a fresh deployment:
 - Setup captures company name and accent color for that instance
 - After setup, `/setup` is locked and users sign in at `/admin`
 - Product name remains `AssetFlow` across all deployments
-- Logo, company name, color, and email footer can be changed later in `Administration > Portal Settings > Branding`
+- Logo, company name, color, and email footer can be changed later in `Administration > Portal Settings` under the `Branding` section
 
 ## Queues and Scheduler
 Queues use the database driver. Start a worker:

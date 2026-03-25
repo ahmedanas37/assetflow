@@ -24,8 +24,15 @@ Key fields:
 - `asset_model_id`, `category_id`, `status_label_id`
 - `location_id` (home location)
 - `assigned_to_user_id` (derived from active assignment)
+- `image_path` (private asset photo)
 - `purchase_date` (Induction Date), `purchase_cost`, `warranty_end_date`
 - `custom_fields` (JSON)
+
+UI capabilities:
+- QR label printing
+- Delivery receipt printing
+- Single-record and bulk CSV export
+- Transfer action for already assigned assets
 
 ### Asset Assignments
 `asset_assignments` records check-out/check-in history:
@@ -33,6 +40,7 @@ Key fields:
 - `assigned_to_id`: ID of user, employee, or location
 - `assigned_to_label`: cubicle or system name for location assignments
 - `assigned_at`, `due_at`, `returned_at`
+- `transferred_from_id` links transfer chains
 - `return_condition` (good/fair/damaged)
 - `is_active` and `active_asset_id` enforce a single active assignment
 
@@ -63,6 +71,33 @@ Audit logs record:
 - actor, action, entity type/id
 - old and new values
 - ip and user agent
+
+The Audit area also supports:
+- CSV export of audit rows
+- Evidence Pack ZIP downloads with CSV snapshots of current operational/reference data
+
+### Portal Settings
+Instance-specific settings are stored in `app_settings` and accessed through `App\Services\PortalSettings`.
+
+Current live uses include:
+- Branding (company name, accent color, logo, email footer)
+- Email receipt behavior
+- Asset transfer toggle
+- Audit evidence pack toggle
+- Dashboard performance mode
+
+Additional policy-oriented settings are already persisted for future enforcement.
+
+### Reports
+Report pages live under `app/Filament/Pages/Reports` and currently include:
+- Warranty Expiring
+- Assets in Repair
+- Retired Assets
+- Assets by Location
+- Assets by Assignee
+- Missing Serials
+- Missing Tags
+- Duplicate Warnings
 
 ## Authorization
 - Policies enforce permissions per model.

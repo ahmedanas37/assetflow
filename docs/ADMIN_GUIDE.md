@@ -14,6 +14,7 @@ This guide is for system owners and administrators responsible for configuration
 9) Create Users and assign Roles for portal access.
 10) Import assets using CSV (optional).
 11) Add Accessories and starting quantities.
+12) Review `Administration > Portal Settings` for branding, email controls, and feature toggles.
 
 ## Roles and Permissions
 Default roles:
@@ -155,17 +156,32 @@ Audit logs track:
 
 Use Audit logs for compliance and investigation.
 
-## Branding
-Branding is configured in:
-- `Administration > Portal Settings > Branding`
-- First-run setup (`/setup`) for initial company name and accent color
-- Optional logo upload from the same Branding section
-- Product name is fixed as `AssetFlow` across all instances
+### Evidence Pack
+The Audit page can generate an `Evidence Pack` ZIP when the feature is enabled in Portal Settings.
+It bundles audit logs plus current CSV snapshots for assets, assignments, accessories, people, and reference data.
 
-After changes:
-```
-php artisan config:cache
-```
+## Portal Settings
+Use `Administration > Portal Settings` to manage tenant-specific settings.
+
+Settings that affect behavior today:
+- Branding: company name, accent color, logo, custom email footer
+- Email Controls: master outbound mail switch, issuance receipts, return confirmations, CC/BCC behavior
+- Feature Toggles: asset transfers, audit evidence pack, dashboard performance mode
+
+Settings currently stored for future enforcement:
+- Security & Access
+- Asset Rules
+- Data Quality
+- Notifications
+- Workflow
+- Audit & Compliance
+
+Saving Portal Settings updates the database-backed settings immediately; no artisan command is required after normal UI changes.
+
+## Branding
+- First-run setup (`/setup`) captures the initial company name and accent color.
+- Later changes are made in the `Branding` section inside `Administration > Portal Settings`.
+- Product name stays fixed as `AssetFlow` across all instances.
 
 ## Data Integrity Notes
 - Status labels in use cannot be deleted.
