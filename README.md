@@ -3,14 +3,15 @@
 AssetFlow is an on-premise IT asset management system built on Laravel 11 and Filament v3. It provides asset tracking, assignments, maintenance logs, audit trails, CSV import/export, and printable QR labels with no external cloud dependencies.
 
 ## Documentation
+- `docs/START_HERE.md` - Best first page if you are not sure which guide to use.
 - `docs/USER_GUIDE.md` - Day-to-day usage for asset teams and auditors.
 - `docs/ROLE_GUIDE.md` - Role-based walkthroughs and workflow summaries.
 - `docs/ADMIN_GUIDE.md` - Admin setup, roles, permissions, and configuration.
 - `docs/OPERATIONS.md` - Deployment, queue/scheduler, backups, and updates.
 - `docs/ARCHITECTURE.md` - Domain structure, data model, and internals.
-- `docs/INSTANCE_DEPLOYMENT.md` - Step-by-step guide for provisioning separate company instances.
-- `docs/QUICK_DEPLOY.md` - Fast clone-to-deploy workflow using one command.
-- `docs/REQUIREMENTS.md` - Infrastructure, runtime, and environment prerequisites.
+- `docs/INSTANCE_DEPLOYMENT.md` - Advanced Linux guide for separate company instances.
+- `docs/QUICK_DEPLOY.md` - Fast Linux server setup guide.
+- `docs/REQUIREMENTS.md` - Local and server requirements checklist.
 - `docs/GITHUB_SETUP.md` - Safe GitHub publishing and repository hardening checklist.
 - `SECURITY.md` - Security policy and hardening checklist.
 
@@ -23,13 +24,63 @@ AssetFlow is an on-premise IT asset management system built on Laravel 11 and Fi
 - Full audit trail plus downloadable audit evidence packs
 - Database-backed queues and scheduled metrics refresh
 
+## Start Here
+If you only want one simple path, use:
+```bash
+composer install
+composer run setup:local
+php artisan serve
+```
+
+Then open `http://127.0.0.1:8000/setup`.
+
+If you are not sure which guide you need, open `docs/START_HERE.md` first.
+
 ## Requirements
+For a simple local test on Windows or Linux:
+- PHP 8.2 or 8.3
+- Composer 2.x
+- PHP extensions: ctype, fileinfo, intl, json, mbstring, openssl, pdo_sqlite or pdo_mysql, tokenizer, xml, zip, gd
+
+For a Linux server deployment:
 - PHP 8.2 or 8.3
 - MariaDB 10.4+ (or MySQL 8+)
 - Web server: Apache or Nginx
 - PHP extensions: ctype, fileinfo, intl, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip, gd
 
-## Quick Start
+## Local Setup (Recommended)
+This is the easiest clone-and-run path for Windows, macOS, or Linux. It uses SQLite locally, so you do not need to create a MySQL database just to try the app.
+
+1) Run this in the project folder
+```bash
+composer install
+composer run setup:local
+php artisan serve
+```
+
+2) Open `http://127.0.0.1:8000/setup`
+
+3) Complete the first-run form to create the admin user
+
+What the bootstrap command does for you:
+- creates `.env` if it is missing
+- configures a local SQLite database
+- generates `APP_KEY`
+- runs `php artisan storage:link`
+- runs database migrations
+
+You do not need Node.js, Apache, Nginx, or MySQL just to try the app locally.
+Install Node.js only if you want to rebuild frontend assets with Vite.
+
+If you want MySQL instead of SQLite on either Windows or Linux, you can use the same cross-platform bootstrap script directly:
+```bash
+php scripts/bootstrap-local.php --driver=mysql --db-database=assetflow --db-username=root
+php artisan serve
+```
+
+## Manual Setup (Advanced)
+Use this only if you want to set up the environment step by step yourself.
+
 1) Install dependencies
 ```bash
 composer install
@@ -74,7 +125,9 @@ php artisan serve
 
 Then open `http://127.0.0.1:8000/setup` if you kept the default local `APP_URL`.
 
-## Quick Deploy (Clone -> Ready)
+## Linux Server Deploy
+This section is for Linux-style server provisioning. For a cross-platform local bootstrap on Windows or Linux, use `composer run setup:local` instead.
+
 For fastest deployment on a new server:
 ```bash
 git clone https://github.com/ahmedanas37/assetflow.git

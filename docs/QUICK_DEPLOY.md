@@ -1,6 +1,15 @@
 # AssetFlow Quick Deploy
 
-Use this when you want the fastest clone-to-deploy flow on a new server.
+Use this when you want the fastest clone-to-deploy flow on a Linux-style server.
+
+If you are bootstrapping locally on Windows or Linux, use the cross-platform path instead:
+```bash
+composer install
+composer run setup:local
+php artisan serve
+```
+
+If you are not sure which path you need, stop here and read `docs/START_HERE.md`.
 
 ## 1) Clone
 ```bash
@@ -18,6 +27,12 @@ scripts/deploy-instance.sh \
   --prompt-db-password
 ```
 
+Replace these example values before you run it:
+- `Acme Corp` -> your company name
+- `https://assetflow.acme.local` -> the real URL for this instance
+- `assetflow_acme` -> the database name you created
+- `assetflow_user` -> the database user for that database
+
 What this command does:
 - creates/updates `.env`
 - installs Composer dependencies
@@ -33,6 +48,10 @@ https://assetflow.acme.local/setup
 ```
 
 Then create the first admin account from the form.
+
+After setup is complete:
+- users sign in at `/admin`
+- `/setup` is no longer the normal sign-in page
 
 ## Common Flags
 - `--db-host` (default: `127.0.0.1`)

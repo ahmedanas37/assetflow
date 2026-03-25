@@ -2,6 +2,8 @@
 
 This guide is for system owners and administrators responsible for configuration, access, and governance.
 
+Use this guide after AssetFlow is already running. If you are still trying to get the app installed, start with `docs/START_HERE.md`.
+
 ## Initial Setup Flow (Recommended Order)
 1) Sign in with the admin account created during first-run setup.
 2) Create Departments (optional but recommended).
@@ -40,6 +42,7 @@ On a fresh install:
 After setup:
 - `/setup` is blocked
 - All sign-ins happen at `/admin`
+- Day-to-day administration happens inside the web interface. You do not need terminal commands for normal admin work.
 
 ### Permission Groups (Summary)
 - Assets: view/create/update/delete/restore/checkout/checkin/import/export/print labels

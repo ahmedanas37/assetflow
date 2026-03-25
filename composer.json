@@ -36,6 +36,9 @@
         }
     },
     "scripts": {
+        "pre-install-cmd": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
@@ -51,6 +54,12 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "setup:local": [
+            "@php scripts/bootstrap-local.php"
+        ],
+        "test": [
+            "@php artisan test"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",

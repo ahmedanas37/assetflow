@@ -2,6 +2,8 @@
 
 This guide is for IT staff, asset managers, and auditors who use the system daily.
 
+If AssetFlow is not installed yet, stop here and use `docs/START_HERE.md` first.
+
 ## Quick Start
 1) Open `{APP_URL}/admin` and sign in.
 2) Use the left navigation to switch modules.

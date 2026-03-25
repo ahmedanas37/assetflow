@@ -2,6 +2,8 @@
 
 This guide is for deploying a separate single-company instance (one company per deployment).
 
+This is an advanced Linux server guide. If you only want to run AssetFlow on your own computer first, use `docs/START_HERE.md` instead.
+
 ## Isolation Model
 Each company instance should have:
 - Dedicated code directory
