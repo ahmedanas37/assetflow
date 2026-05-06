@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Domain\Assets\Models\Asset;
 use App\Domain\Assets\Services\QrCodeService;
-use App\Filament\Resources\AssetResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -94,7 +93,7 @@ class AssetLabelController extends Controller
     private function buildLabels(array $assets, QrCodeService $qrCodeService): array
     {
         return collect($assets)->map(function (Asset $asset) use ($qrCodeService): array {
-            $url = AssetResource::getUrl('view', ['record' => $asset]);
+            $url = route('assetflow.assets.scan', $asset);
             $customPairs = $this->normalizeCustomFieldPairs($asset->custom_fields ?? null);
 
             return [
@@ -119,7 +118,7 @@ class AssetLabelController extends Controller
     private function buildReceipts(array $assets, QrCodeService $qrCodeService): array
     {
         return collect($assets)->map(function (Asset $asset) use ($qrCodeService): array {
-            $url = AssetResource::getUrl('view', ['record' => $asset]);
+            $url = route('assetflow.assets.scan', $asset);
             $assignment = $asset->activeAssignment;
             $customPairs = $this->normalizeCustomFieldPairs($asset->custom_fields ?? null);
 

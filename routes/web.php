@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssetCsvController;
 use App\Http\Controllers\AssetLabelController;
 use App\Http\Controllers\AssetPhotoController;
+use App\Http\Controllers\AssetScanController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuditEvidencePackController;
 use App\Http\Controllers\EmployeeCsvController;
@@ -31,6 +32,8 @@ Route::get('/receipts/accessories/{assignment}/accept/{token}', [ReceiptAcceptan
     ->name('assetflow.acceptance.accessory.show');
 Route::post('/receipts/accessories/{assignment}/accept/{token}', [ReceiptAcceptanceController::class, 'acceptAccessory'])
     ->name('assetflow.acceptance.accessory.accept');
+Route::get('/assets/{asset}/scan', [AssetScanController::class, 'show'])
+    ->name('assetflow.assets.scan');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/assets/{asset}/export', [AssetCsvController::class, 'export'])
