@@ -43,8 +43,8 @@ class CoreDataSeeder extends Seeder
             'manufacturer_id' => $manufacturer->id,
             'category_id' => $category->id,
             'name' => 'Generic Laptop',
-        ], [
             'model_number' => 'GEN-LAP',
+        ], [
             'depreciation_months' => 36,
         ]);
 
