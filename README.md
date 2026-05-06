@@ -8,6 +8,7 @@ AssetFlow is an on-premise IT asset management system built on Laravel 11 and Fi
 - `docs/ROLE_GUIDE.md` - Role-based walkthroughs and workflow summaries.
 - `docs/ADMIN_GUIDE.md` - Admin setup, roles, permissions, and configuration.
 - `docs/OPERATIONS.md` - Deployment, queue/scheduler, backups, and updates.
+- `docs/API.md` - Current API status and extension notes.
 - `docs/ARCHITECTURE.md` - Domain structure, data model, and internals.
 - `docs/INSTANCE_DEPLOYMENT.md` - Advanced Linux guide for separate company instances.
 - `docs/QUICK_DEPLOY.md` - Fast Linux server setup guide.
@@ -21,6 +22,7 @@ AssetFlow is an on-premise IT asset management system built on Laravel 11 and Fi
 - Role-based access control via spatie/laravel-permission
 - CSV import/export with mapping and validation preview
 - QR codes, printable labels, and delivery receipts for single or bulk assets
+- Mobile-friendly QR scan pages and tokenized receipt acceptance links
 - Full audit trail plus downloadable audit evidence packs
 - Database-backed queues and scheduled metrics refresh
 
@@ -180,7 +182,7 @@ Add a cron entry for the scheduler:
 The scheduler runs `assetflow:update-metrics` hourly for dashboard warranty and overdue updates.
 
 ## Artisan Commands
-- `php artisan assetflow:seed-demo` - Seed sample manufacturers, models, locations, and assets
+- `php artisan assetflow:seed-demo` - Seed a comprehensive demo environment with users, employees, locations, assets, accessories, assignments, maintenance, and attachments
 - `php artisan assetflow:recalculate-assignments` - Sync `assigned_to_user_id` from active assignments
 - `php artisan assetflow:update-metrics` - Refresh cached dashboard metrics
 - `php artisan assetflow:reset-admin` - Reset or create the admin account
@@ -200,8 +202,10 @@ Accessories track items like mouse, keyboard, and headset.
 - Check out accessories to users or locations
 - Capture cubicle/system name for location assignments
 
-## Labels and QR Codes
-Use "Print Label" on an asset detail page or the bulk action on the Assets table. QR codes link to the asset detail page using `APP_URL`.
+## Labels, QR Codes, and Receipts
+Use "Print Label" on an asset detail page or the bulk action on the Assets table. QR codes link to a mobile-friendly scan page using `APP_URL`; authenticated users with permission also see management actions there.
+
+Delivery receipt links can be copied from assignment actions or sent by mail when mail settings are configured. Receipt acceptance uses a long tokenized link, records the accepted name/IP/user agent, and rejects stale acceptance after the assignment has been returned.
 
 ## Storage and Permissions
 Ensure write access for:
