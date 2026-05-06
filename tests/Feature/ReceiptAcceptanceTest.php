@@ -75,6 +75,38 @@ class ReceiptAcceptanceTest extends TestCase
         $this->assertNotNull($assignment->accepted_ip);
     }
 
+    public function test_asset_receipt_cannot_be_accepted_after_return(): void
+    {
+        $assignment = $this->createAssetAssignment();
+        $url = app(ReceiptAcceptanceService::class)->assetUrl($assignment);
+
+        $assignment->forceFill([
+            'returned_at' => now(),
+        ])->save();
+
+        $this->post($url, [
+            'accepted_by_name' => 'Late Receiver',
+        ])->assertGone();
+
+        $this->assertNull($assignment->refresh()->accepted_at);
+    }
+
+    public function test_accessory_receipt_cannot_be_accepted_after_return(): void
+    {
+        $assignment = $this->createAccessoryAssignment();
+        $url = app(ReceiptAcceptanceService::class)->accessoryUrl($assignment);
+
+        $assignment->forceFill([
+            'returned_quantity' => $assignment->quantity,
+        ])->save();
+
+        $this->post($url, [
+            'accepted_by_name' => 'Late Receiver',
+        ])->assertGone();
+
+        $this->assertNull($assignment->refresh()->accepted_at);
+    }
+
     public function test_assignment_receipt_emails_include_acceptance_links(): void
     {
         $assetAssignment = $this->createAssetAssignment();

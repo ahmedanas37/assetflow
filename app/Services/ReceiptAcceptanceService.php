@@ -40,6 +40,12 @@ class ReceiptAcceptanceService
         return hash_equals($assignment->acceptance_token_hash, $this->hashToken($token));
     }
 
+    public function canAccept(AssetAssignment|AccessoryAssignment $assignment): bool
+    {
+        return (bool) $assignment->accepted_at
+            || ($assignment->is_active && $assignment->returned_at === null);
+    }
+
     public function accept(AssetAssignment|AccessoryAssignment $assignment, string $acceptedByName, Request $request): void
     {
         if ($assignment->accepted_at) {

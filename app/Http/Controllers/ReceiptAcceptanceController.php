@@ -38,6 +38,7 @@ class ReceiptAcceptanceController extends Controller
         ReceiptAcceptanceService $acceptance,
     ): RedirectResponse {
         abort_unless($acceptance->isValidToken($assignment, $token), 404);
+        abort_unless($acceptance->canAccept($assignment), 410);
 
         $data = $request->validate([
             'accepted_by_name' => ['required', 'string', 'max:255'],
@@ -77,6 +78,7 @@ class ReceiptAcceptanceController extends Controller
         ReceiptAcceptanceService $acceptance,
     ): RedirectResponse {
         abort_unless($acceptance->isValidToken($assignment, $token), 404);
+        abort_unless($acceptance->canAccept($assignment), 410);
 
         $data = $request->validate([
             'accepted_by_name' => ['required', 'string', 'max:255'],
