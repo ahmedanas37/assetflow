@@ -85,6 +85,8 @@ class AuditLogger
             'updated_at',
             'created_at',
             'deleted_at',
+            'acceptance_token',
+            'acceptance_token_hash',
         ]);
     }
 

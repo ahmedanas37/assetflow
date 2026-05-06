@@ -8,12 +8,7 @@
     }
     $assignedAt = $assignment->assigned_at?->format('M d, Y h:i A');
     $dueAt = $assignment->due_at?->format('M d, Y h:i A');
-    $ackEmail = $assignment->assignedBy?->email ?? config('mail.from.address');
-    $ackSubject = $accessory ? "Acknowledgement: {$accessory->name}" : 'Acknowledgement: Accessory';
-    $ackBody = $accessory
-        ? "I acknowledge receipt of accessory {$accessory->name}."
-        : "I acknowledge receipt of the accessory.";
-    $ackLink = $ackEmail ? ('mailto:' . $ackEmail . '?subject=' . rawurlencode($ackSubject) . '&body=' . rawurlencode($ackBody)) : null;
+    $ackLink = app(\App\Services\ReceiptAcceptanceService::class)->accessoryUrl($assignment);
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -33,17 +28,15 @@
                             <div style="font-size:14px; margin-bottom:14px; color:#111827;">
                                 This accessory has been issued to you. Please acknowledge this email for your records.
                             </div>
-                            @if ($ackLink)
-                                <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
-                                    <tr>
-                                        <td>
-                                            <a href="{{ $ackLink }}" style="background:{{ $accent }}; color:#ffffff; text-decoration:none; padding:10px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-block;">
-                                                Acknowledge Receipt
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            @endif
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
+                                <tr>
+                                    <td>
+                                        <a href="{{ $ackLink }}" style="background:{{ $accent }}; color:#ffffff; text-decoration:none; padding:10px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-block;">
+                                            Accept Receipt
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
                             <div style="font-size:14px; margin-bottom:16px;">
                                 <strong>Issued to:</strong> {{ $assignedTo }}
                             </div>

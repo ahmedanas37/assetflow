@@ -34,12 +34,20 @@ class AssetAssignment extends Model
         'is_active',
         'active_asset_id',
         'transferred_from_id',
+        'acceptance_token_hash',
+        'acceptance_token',
+        'accepted_at',
+        'accepted_by_name',
+        'accepted_ip',
+        'accepted_user_agent',
     ];
 
     protected $casts = [
         'assigned_at' => 'datetime',
         'due_at' => 'datetime',
         'returned_at' => 'datetime',
+        'accepted_at' => 'datetime',
+        'acceptance_token' => 'encrypted',
         'is_active' => 'boolean',
         'active_asset_id' => 'integer',
         'transferred_from_id' => 'integer',

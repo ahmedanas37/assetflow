@@ -75,6 +75,10 @@ class AssetAssignmentResource extends Resource
                 TextColumn::make('returned_at')
                     ->dateTime()
                     ->toggleable(),
+                TextColumn::make('accepted_at')
+                    ->label('Accepted')
+                    ->dateTime()
+                    ->toggleable(),
             ])
             ->filters([
                 SelectFilter::make('assigned_to_type')

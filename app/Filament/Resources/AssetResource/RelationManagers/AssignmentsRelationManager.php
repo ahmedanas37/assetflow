@@ -54,6 +54,10 @@ class AssignmentsRelationManager extends RelationManager
                 TextColumn::make('returned_at')
                     ->dateTime()
                     ->toggleable(),
+                TextColumn::make('accepted_at')
+                    ->label('Accepted')
+                    ->dateTime()
+                    ->toggleable(),
                 TextColumn::make('return_condition')
                     ->label('Condition')
                     ->formatStateUsing(function ($state): ?string {

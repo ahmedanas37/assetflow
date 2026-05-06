@@ -6,6 +6,7 @@ use App\Http\Controllers\AssetPhotoController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuditEvidencePackController;
 use App\Http\Controllers\EmployeeCsvController;
+use App\Http\Controllers\ReceiptAcceptanceController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\UserCsvController;
 use App\Http\Middleware\EnsureApplicationNotInstalled;
@@ -21,6 +22,15 @@ Route::middleware([EnsureApplicationNotInstalled::class])->group(function (): vo
         ->name('setup.initialize-database');
     Route::post('/setup', [SetupController::class, 'store'])->name('setup.store');
 });
+
+Route::get('/receipts/assets/{assignment}/accept/{token}', [ReceiptAcceptanceController::class, 'showAsset'])
+    ->name('assetflow.acceptance.asset.show');
+Route::post('/receipts/assets/{assignment}/accept/{token}', [ReceiptAcceptanceController::class, 'acceptAsset'])
+    ->name('assetflow.acceptance.asset.accept');
+Route::get('/receipts/accessories/{assignment}/accept/{token}', [ReceiptAcceptanceController::class, 'showAccessory'])
+    ->name('assetflow.acceptance.accessory.show');
+Route::post('/receipts/accessories/{assignment}/accept/{token}', [ReceiptAcceptanceController::class, 'acceptAccessory'])
+    ->name('assetflow.acceptance.accessory.accept');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/assets/{asset}/export', [AssetCsvController::class, 'export'])
