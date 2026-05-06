@@ -12,7 +12,7 @@ class AssignmentsDueSoonWidget extends BaseWidget
 {
     protected static ?int $sort = 55;
 
-    protected static bool $isLazy = true;
+    protected static bool $isLazy = false;
 
     protected int|string|array $columnSpan = 'full';
 
