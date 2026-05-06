@@ -6,6 +6,7 @@ use App\Domain\Maintenance\Enums\MaintenanceStatus;
 use App\Domain\Maintenance\Enums\MaintenanceType;
 use App\Domain\Maintenance\Models\MaintenanceLog;
 use App\Domain\Vendors\Models\Vendor;
+use App\Filament\Resources\MaintenanceLogResource;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -61,10 +62,10 @@ class MaintenanceLogsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('type')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => ucfirst((string) $state)),
+                    ->formatStateUsing(fn ($state) => MaintenanceLogResource::formatEnumState($state)),
                 TextColumn::make('status')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => ucfirst((string) $state)),
+                    ->formatStateUsing(fn ($state) => MaintenanceLogResource::formatEnumState($state)),
                 TextColumn::make('start_date')->date()->sortable(),
                 TextColumn::make('end_date')->date()->toggleable(),
                 TextColumn::make('cost')->money('PKR')->toggleable(),

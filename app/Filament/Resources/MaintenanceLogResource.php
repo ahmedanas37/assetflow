@@ -9,6 +9,7 @@ use App\Domain\Maintenance\Models\MaintenanceLog;
 use App\Domain\Vendors\Models\Vendor;
 use App\Filament\Resources\MaintenanceLogResource\Pages;
 use App\Filament\Resources\MaintenanceLogResource\RelationManagers\AttachmentsRelationManager;
+use BackedEnum;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -81,10 +82,10 @@ class MaintenanceLogResource extends Resource
                     ->sortable(),
                 TextColumn::make('type')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => ucfirst((string) $state)),
+                    ->formatStateUsing(fn ($state) => self::formatEnumState($state)),
                 TextColumn::make('status')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => ucfirst((string) $state)),
+                    ->formatStateUsing(fn ($state) => self::formatEnumState($state)),
                 TextColumn::make('start_date')
                     ->date()
                     ->sortable(),
@@ -159,5 +160,19 @@ class MaintenanceLogResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with(['asset', 'vendor']);
+    }
+
+    public static function formatEnumState(mixed $state): ?string
+    {
+        if ($state === null || $state === '') {
+            return null;
+        }
+
+        $value = $state instanceof BackedEnum ? $state->value : (string) $state;
+
+        return str($value)
+            ->replace(['_', '-'], ' ')
+            ->headline()
+            ->toString();
     }
 }
