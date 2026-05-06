@@ -45,16 +45,17 @@
         }
         .label-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--label-width)), 1fr));
             gap: var(--label-gap);
         }
         .label {
             border: 1px solid #ddd;
-            padding: 6mm;
+            box-sizing: border-box;
+            padding: 5mm;
             min-height: var(--label-height);
             break-inside: avoid;
             display: grid;
-            grid-template-columns: 1fr 24mm;
+            grid-template-columns: minmax(0, 1fr) 22mm;
             gap: 3mm;
             align-items: start;
         }
@@ -77,14 +78,20 @@
             margin-bottom: 2mm;
         }
         .tag {
-            font-size: 11pt;
+            box-sizing: border-box;
+            font-size: 9.5pt;
             font-weight: bold;
             margin-bottom: 2mm;
             font-family: "Courier New", Courier, monospace;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.04em;
+            line-height: 1.15;
             text-transform: uppercase;
-            white-space: nowrap;
-            display: inline-block;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            display: block;
+            width: fit-content;
+            max-width: 100%;
             padding: 1mm 2mm;
             border: 1px solid #111;
             border-radius: 2mm;
@@ -94,6 +101,7 @@
             font-size: 8pt;
             color: #333;
             line-height: 1.4;
+            overflow-wrap: anywhere;
             word-break: break-word;
         }
         .custom {
@@ -113,8 +121,9 @@
         }
         .qr {
             margin-top: 2mm;
-            width: 24mm;
-            height: 24mm;
+            width: 22mm;
+            height: 22mm;
+            justify-self: end;
         }
         .qr svg {
             width: 100%;
@@ -141,6 +150,9 @@
             }
             .print-only {
                 display: block;
+            }
+            .label-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
     </style>
