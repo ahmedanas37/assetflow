@@ -73,6 +73,7 @@ class AccessoryAssignmentService
                 'location_at_assignment' => $accessory->location?->name,
             ]);
 
+            $assignment->setAuditActor($actor);
             $assignment->save();
 
             $accessory->quantity_available = max($accessory->quantity_available - $quantity, 0);
@@ -92,7 +93,7 @@ class AccessoryAssignmentService
         int $quantity,
         ?string $notes = null,
     ): AccessoryAssignment {
-        return DB::transaction(function () use ($assignment, $quantity, $notes): AccessoryAssignment {
+        return DB::transaction(function () use ($assignment, $actor, $quantity, $notes): AccessoryAssignment {
             $assignment = AccessoryAssignment::query()->lockForUpdate()->findOrFail($assignment->id);
 
             if (! $assignment->is_active) {
@@ -115,6 +116,7 @@ class AccessoryAssignmentService
             if ($notes) {
                 $assignment->notes = $notes;
             }
+            $assignment->setAuditActor($actor);
             $assignment->save();
 
             $accessory->quantity_available = min($accessory->quantity_available + $quantity, $accessory->quantity_total);

@@ -17,6 +17,7 @@ class AuditLogger
         ?User $actor = null,
     ): ?AuditLog {
         $context = self::context();
+        $actor ??= self::actorFromEntity($entity);
 
         $oldValues = self::filterValues($oldValues);
         $newValues = self::filterValues($newValues);
@@ -85,5 +86,16 @@ class AuditLogger
             'created_at',
             'deleted_at',
         ]);
+    }
+
+    private static function actorFromEntity(Model $entity): ?User
+    {
+        if (! method_exists($entity, 'auditActor')) {
+            return null;
+        }
+
+        $actor = $entity->auditActor();
+
+        return $actor instanceof User ? $actor : null;
     }
 }

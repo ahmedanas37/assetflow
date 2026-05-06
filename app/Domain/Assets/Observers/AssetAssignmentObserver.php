@@ -24,7 +24,7 @@ class AssetAssignmentObserver
                 'assigned_at' => optional($assignment->assigned_at)->toDateTimeString(),
                 'due_at' => optional($assignment->due_at)->toDateTimeString(),
                 'notes' => $assignment->notes,
-            ]);
+            ], $assignment->auditActor());
         }
 
         $this->syncAssignedUser($assignment);
@@ -40,7 +40,7 @@ class AssetAssignmentObserver
                     'returned_at' => $assignment->returned_at->toDateTimeString(),
                     'return_condition' => $assignment->return_condition?->value ?? $assignment->return_condition,
                     'notes' => $assignment->notes,
-                ]);
+                ], $assignment->auditActor());
             }
         }
 

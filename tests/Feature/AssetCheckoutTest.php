@@ -7,6 +7,7 @@ use App\Domain\Assets\Models\Asset;
 use App\Domain\Assets\Models\AssetAssignment;
 use App\Domain\Assets\Models\StatusLabel;
 use App\Domain\Assets\Services\AssignmentService;
+use App\Domain\Audits\Models\AuditLog;
 use App\Domain\Inventory\Models\AssetModel;
 use App\Domain\Inventory\Models\Category;
 use App\Domain\Inventory\Models\Manufacturer;
@@ -83,6 +84,76 @@ class AssetCheckoutTest extends TestCase
             asset: $asset,
             actor: $user,
         );
+    }
+
+    public function test_checkout_audit_log_uses_explicit_actor(): void
+    {
+        $status = StatusLabel::factory()->create([
+            'name' => 'In Stock',
+            'deployable' => true,
+        ]);
+        $asset = $this->createAssetWithStatus($status);
+        $assignee = User::factory()->create();
+        $actor = User::factory()->create();
+
+        $assignment = app(AssignmentService::class)->checkout(
+            asset: $asset,
+            type: AssignmentType::User,
+            assignedToId: $assignee->id,
+            actor: $actor,
+        );
+
+        $this->assertDatabaseHas('audit_logs', [
+            'actor_user_id' => $actor->id,
+            'action' => 'checked_out',
+            'entity_type' => $asset->getMorphClass(),
+            'entity_id' => $asset->id,
+        ]);
+
+        $this->assertDatabaseHas('audit_logs', [
+            'actor_user_id' => $actor->id,
+            'action' => 'created',
+            'entity_type' => $assignment->getMorphClass(),
+            'entity_id' => $assignment->id,
+        ]);
+    }
+
+    public function test_checkin_audit_log_uses_explicit_actor(): void
+    {
+        $status = StatusLabel::factory()->create([
+            'name' => 'In Stock',
+            'deployable' => true,
+        ]);
+        $asset = $this->createAssetWithStatus($status);
+        $assignee = User::factory()->create();
+        $checkoutActor = User::factory()->create();
+        $checkinActor = User::factory()->create();
+
+        app(AssignmentService::class)->checkout(
+            asset: $asset,
+            type: AssignmentType::User,
+            assignedToId: $assignee->id,
+            actor: $checkoutActor,
+        );
+
+        app(AssignmentService::class)->checkin(
+            asset: $asset,
+            actor: $checkinActor,
+        );
+
+        $this->assertDatabaseHas('audit_logs', [
+            'actor_user_id' => $checkinActor->id,
+            'action' => 'checked_in',
+            'entity_type' => $asset->getMorphClass(),
+            'entity_id' => $asset->id,
+        ]);
+
+        $this->assertSame(1, AuditLog::query()
+            ->where('actor_user_id', $checkinActor->id)
+            ->where('action', 'checked_in')
+            ->where('entity_type', $asset->getMorphClass())
+            ->where('entity_id', $asset->id)
+            ->count());
     }
 
     private function createAssetWithStatus(StatusLabel $status): Asset

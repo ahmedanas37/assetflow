@@ -47,6 +47,20 @@ class AssetAssignment extends Model
         'return_condition' => AssetCondition::class,
     ];
 
+    private ?User $auditActor = null;
+
+    public function setAuditActor(?User $actor): static
+    {
+        $this->auditActor = $actor;
+
+        return $this;
+    }
+
+    public function auditActor(): ?User
+    {
+        return $this->auditActor;
+    }
+
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class);

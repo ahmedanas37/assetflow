@@ -75,6 +75,7 @@ class AssignmentService
                 'location_at_assignment' => $asset->location?->name,
             ]);
 
+            $assignment->setAuditActor($actor);
             $assignment->save();
 
             $deployStatus = StatusLabel::query()->where('name', 'Deployed')->first();
@@ -100,7 +101,7 @@ class AssignmentService
         ?string $notes = null,
         ?int $statusLabelId = null,
     ): AssetAssignment {
-        return DB::transaction(function () use ($asset, $condition, $notes, $statusLabelId): AssetAssignment {
+        return DB::transaction(function () use ($asset, $actor, $condition, $notes, $statusLabelId): AssetAssignment {
             $asset = Asset::query()->lockForUpdate()->findOrFail($asset->id);
 
             $assignment = AssetAssignment::query()
@@ -117,6 +118,7 @@ class AssignmentService
             $assignment->returned_at = now();
             $assignment->return_condition = $condition?->value;
             $assignment->notes = $notes ?: $assignment->notes;
+            $assignment->setAuditActor($actor);
             $assignment->save();
 
             $asset->assigned_to_user_id = null;
@@ -195,6 +197,7 @@ class AssignmentService
 
             $current->returned_at = now();
             $current->is_active = false;
+            $current->setAuditActor($actor);
             $current->save();
 
             $assignment = new AssetAssignment([
@@ -210,6 +213,7 @@ class AssignmentService
                 'transferred_from_id' => $current->id,
             ]);
 
+            $assignment->setAuditActor($actor);
             $assignment->save();
 
             $asset->assigned_to_user_id = $type === AssignmentType::User ? $assignedToId : null;

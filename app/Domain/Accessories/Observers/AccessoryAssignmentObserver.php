@@ -41,7 +41,7 @@ class AccessoryAssignmentObserver
             'due_at' => optional($assignment->due_at)->toDateTimeString(),
             'quantity' => $assignment->quantity,
             'notes' => $assignment->notes,
-        ]);
+        ], $assignment->auditActor());
     }
 
     public function updated(AccessoryAssignment $assignment): void
@@ -58,7 +58,7 @@ class AccessoryAssignmentObserver
                 'returned_quantity' => $assignment->returned_quantity,
                 'returned_at' => optional($assignment->returned_at)->toDateTimeString(),
                 'notes' => $assignment->notes,
-            ]);
+            ], $assignment->auditActor());
         }
     }
 }

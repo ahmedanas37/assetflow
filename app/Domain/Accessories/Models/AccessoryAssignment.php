@@ -43,6 +43,20 @@ class AccessoryAssignment extends Model
         'assigned_to_type' => AssignmentType::class,
     ];
 
+    private ?User $auditActor = null;
+
+    public function setAuditActor(?User $actor): static
+    {
+        $this->auditActor = $actor;
+
+        return $this;
+    }
+
+    public function auditActor(): ?User
+    {
+        return $this->auditActor;
+    }
+
     public function accessory(): BelongsTo
     {
         return $this->belongsTo(Accessory::class);
