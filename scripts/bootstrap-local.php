@@ -141,7 +141,7 @@ function parseArguments(array $arguments): array
 
 function usage(): void
 {
-    echo <<<TEXT
+    echo <<<'TEXT'
 Usage:
   php scripts/bootstrap-local.php [--app-url=http://127.0.0.1:8000]
   php scripts/bootstrap-local.php --driver=mysql --db-database=assetflow [--db-username=root] [--db-password=secret]
@@ -175,7 +175,7 @@ function ensureSqliteDatabase(string $sqlitePath): void
 function setEnvValue(string $contents, string $key, string $value): string
 {
     $formattedValue = formatEnvValue($value);
-    $pattern = "/^".preg_quote($key, '/')."=.*/m";
+    $pattern = '/^'.preg_quote($key, '/').'=.*/m';
     $line = "{$key}={$formattedValue}";
 
     if (preg_match($pattern, $contents) === 1) {

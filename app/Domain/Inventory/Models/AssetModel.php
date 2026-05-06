@@ -16,6 +16,7 @@ class AssetModel extends Model
 
     /** @use HasFactory<\Database\Factories\Domain\Inventory\Models\AssetModelFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected $fillable = ['manufacturer_id',

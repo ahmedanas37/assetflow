@@ -19,6 +19,7 @@ class Accessory extends Model
 
     /** @use HasFactory<\Database\Factories\Domain\Accessories\Models\AccessoryFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected $fillable = ['name',

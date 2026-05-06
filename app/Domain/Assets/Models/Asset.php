@@ -26,6 +26,7 @@ class Asset extends Model
 
     /** @use HasFactory<\Database\Factories\Domain\Assets\Models\AssetFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected $fillable = ['asset_tag',

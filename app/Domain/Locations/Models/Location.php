@@ -17,6 +17,7 @@ class Location extends Model
 
     /** @use HasFactory<\Database\Factories\Domain\Locations\Models\LocationFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected $fillable = ['name',
