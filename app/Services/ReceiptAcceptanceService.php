@@ -82,7 +82,7 @@ class ReceiptAcceptanceService
         $assignment->forceFill([
             'acceptance_token' => $token,
             'acceptance_token_hash' => $this->hashToken($token),
-        ])->save();
+        ])->saveQuietly();
 
         return $token;
     }

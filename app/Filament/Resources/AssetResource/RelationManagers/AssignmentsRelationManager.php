@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\AssetResource\RelationManagers;
 
 use App\Domain\Assets\Models\AssetAssignment;
+use App\Filament\Resources\AssetAssignmentResource;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
@@ -79,7 +80,9 @@ class AssignmentsRelationManager extends RelationManager
             ])
             ->defaultSort('assigned_at', 'desc')
             ->headerActions([])
-            ->actions([])
+            ->actions([
+                AssetAssignmentResource::acceptanceLinkAction(),
+            ])
             ->bulkActions([])
             ->modifyQueryUsing(fn ($query) => $query->with([
                 'assignedToUser',

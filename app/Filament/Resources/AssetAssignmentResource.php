@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Domain\Assets\Enums\AssignmentType;
 use App\Domain\Assets\Models\AssetAssignment;
 use App\Filament\Resources\AssetAssignmentResource\Pages;
+use App\Services\ReceiptAcceptanceService;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -97,7 +98,9 @@ class AssetAssignmentResource extends Resource
                     ->label('Overdue')
                     ->query(fn (Builder $query) => $query->whereNotNull('due_at')->where('due_at', '<', now())->whereNull('returned_at')),
             ])
-            ->actions([])
+            ->actions([
+                self::acceptanceLinkAction(),
+            ])
             ->bulkActions([])
             ->defaultSort('assigned_at', 'desc')
             ->persistFiltersInSession()
@@ -120,5 +123,20 @@ class AssetAssignmentResource extends Resource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    public static function acceptanceLinkAction(): Tables\Actions\Action
+    {
+        return Tables\Actions\Action::make('acceptance_link')
+            ->label('Acceptance Link')
+            ->icon('heroicon-o-link')
+            ->modalHeading('Acceptance Link')
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel('Close')
+            ->modalContent(fn (AssetAssignment $record) => view('filament.actions.acceptance-link', [
+                'url' => app(ReceiptAcceptanceService::class)->assetUrl($record),
+                'inputId' => 'asset-acceptance-link-'.$record->id,
+            ]))
+            ->visible(fn (): bool => auth()->user()?->can('view assignments') ?? false);
     }
 }

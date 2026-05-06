@@ -94,6 +94,22 @@ class ReceiptAcceptanceTest extends TestCase
         $this->assertStringNotContainsString('mailto:', $accessoryHtml);
     }
 
+    public function test_acceptance_link_is_stable_and_token_generation_is_not_audited_as_assignment_update(): void
+    {
+        $assignment = $this->createAssetAssignment();
+        $service = app(ReceiptAcceptanceService::class);
+
+        $firstUrl = $service->assetUrl($assignment);
+        $secondUrl = $service->assetUrl($assignment->refresh());
+
+        $this->assertSame($firstUrl, $secondUrl);
+        $this->assertDatabaseMissing('audit_logs', [
+            'action' => 'updated',
+            'entity_type' => $assignment->getMorphClass(),
+            'entity_id' => $assignment->id,
+        ]);
+    }
+
     private function createAssetAssignment(): AssetAssignment
     {
         $asset = Asset::factory()->create();

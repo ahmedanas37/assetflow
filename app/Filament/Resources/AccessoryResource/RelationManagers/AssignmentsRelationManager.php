@@ -4,6 +4,7 @@ namespace App\Filament\Resources\AccessoryResource\RelationManagers;
 
 use App\Domain\Accessories\Models\AccessoryAssignment;
 use App\Domain\Accessories\Services\AccessoryAssignmentService;
+use App\Filament\Resources\AccessoryAssignmentResource;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -63,6 +64,7 @@ class AssignmentsRelationManager extends RelationManager
                     ),
             ])
             ->actions([
+                AccessoryAssignmentResource::acceptanceLinkAction(),
                 Tables\Actions\Action::make('checkin')
                     ->label('Check-in')
                     ->icon('heroicon-o-arrow-down-tray')

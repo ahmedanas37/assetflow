@@ -6,6 +6,7 @@ use App\Domain\Accessories\Models\AccessoryAssignment;
 use App\Domain\Accessories\Services\AccessoryAssignmentService;
 use App\Domain\Assets\Enums\AssignmentType;
 use App\Filament\Resources\AccessoryAssignmentResource\Pages;
+use App\Services\ReceiptAcceptanceService;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -92,6 +93,7 @@ class AccessoryAssignmentResource extends Resource
                     ->query(fn (Builder $query) => $query->whereNotNull('due_at')->where('due_at', '<', now())->whereNull('returned_at')),
             ])
             ->actions([
+                self::acceptanceLinkAction(),
                 Tables\Actions\Action::make('checkin')
                     ->label('Check-in')
                     ->icon('heroicon-o-arrow-down-tray')
@@ -140,5 +142,20 @@ class AccessoryAssignmentResource extends Resource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    public static function acceptanceLinkAction(): Tables\Actions\Action
+    {
+        return Tables\Actions\Action::make('acceptance_link')
+            ->label('Acceptance Link')
+            ->icon('heroicon-o-link')
+            ->modalHeading('Acceptance Link')
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel('Close')
+            ->modalContent(fn (AccessoryAssignment $record) => view('filament.actions.acceptance-link', [
+                'url' => app(ReceiptAcceptanceService::class)->accessoryUrl($record),
+                'inputId' => 'accessory-acceptance-link-'.$record->id,
+            ]))
+            ->visible(fn (): bool => auth()->user()?->can('view accessory assignments') ?? false);
     }
 }
