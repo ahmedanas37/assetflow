@@ -39,14 +39,22 @@ class CoreDataSeeder extends Seeder
             'type' => CategoryType::Accessory->value,
         ]);
 
-        AssetModel::firstOrCreate([
+        $assetModel = AssetModel::withTrashed()->firstOrNew([
             'manufacturer_id' => $manufacturer->id,
-            'category_id' => $category->id,
             'name' => 'Generic Laptop',
             'model_number' => 'GEN-LAP',
-        ], [
+        ]);
+
+        $assetModel->fill([
+            'category_id' => $category->id,
             'depreciation_months' => 36,
         ]);
+
+        if ($assetModel->trashed()) {
+            $assetModel->restore();
+        }
+
+        $assetModel->save();
 
         Vendor::firstOrCreate(['name' => 'Default Vendor'], [
             'contact_name' => 'Procurement',
